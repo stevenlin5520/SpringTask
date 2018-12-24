@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd
+            http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.1.xsd">
+
+    <!-- 定时任务开关 -->
+    <task:annotation-driven />
+    
+    <bean id="task" class="com.steven.demo.Task"></bean>
+    <!-- 说明：ref参数是配置的任务类bean的id，method是需要运行的方法，cron是cronExpression表达式  -->
+    <task:scheduled-tasks >   
+        <!-- 每隔5秒执行一次print方法 --> 
+        <task:scheduled ref ="task" method="print" cron= "*/5 * * * * ?"/>   
+        <!-- 每分钟的第20秒准时调用executeTask方法 -->
+        <task:scheduled ref ="task" method="excuteTask" cron= "20 * * * * ?" />  
+    </task:scheduled-tasks >
+    
+    <!-- 注解扫描 -->
+    <context:component-scan base-package="com.steven.demo" />
+    
+</beans>    
